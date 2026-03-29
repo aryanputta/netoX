@@ -1,0 +1,24 @@
+FROM python:3.11-slim
+
+RUN groupadd -r netobot && useradd -r -g netobot netobot
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+ENV MPLBACKEND=Agg
+
+COPY . .
+RUN chown -R netobot:netobot /app
+USER netobot
+
+# Model output volume mount point
+VOLUME ["/app/models"]
+
+ENTRYPOINT ["python", "train_rl.py"]
+CMD ["--episodes", "500", "--rl-episodes", "100", "--output", "models/rl_policy"]

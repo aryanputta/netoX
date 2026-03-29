@@ -1,0 +1,82 @@
+version: "3.9"
+
+# Scalable multi-service architecture:
+#   flight-computer  — physics simulation + telemetry broadcast
+#   ground-station   — receives telemetry, runs EKF + control, exposes metrics
+#   trainer          — offline RL training (runs once, writes model to shared volume)
+#   dashboard        — headless metrics export (Prometheus-compatible scrape endpoint)
+#
+# For local development with GUI: run `python main.py` directly (not via Docker).
+
+services:
+
+  flight-computer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: netobot-flight-computer
+    environment:
+      - NETOBOT_ROLE=flight-computer
+      - MPLBACKEND=Agg
+    command: ["--no-viz", "--controller", "pid", "--wind", "3"]
+    ports:
+      - "5005:5005/udp"   # telemetry out
+      - "5006:5006/udp"   # commands in
+    networks:
+      - netobot-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import socket; s=socket.socket(socket.AF_INET,socket.SOCK_DGRAM); s.bind(('',5005))"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  ground-station:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: netobot-ground-station
+    environment:
+      - NETOBOT_ROLE=ground-station
+      - MPLBACKEND=Agg
+      - FLIGHT_COMPUTER_HOST=flight-computer
+    command: ["--no-viz", "--no-network"]
+    depends_on:
+      - flight-computer
+    networks:
+      - netobot-net
+    restart: unless-stopped
+
+  trainer:
+    build:
+      context: .
+      dockerfile: Dockerfile.trainer
+    container_name: netobot-trainer
+    volumes:
+      - model-store:/app/models
+    networks:
+      - netobot-net
+    profiles:
+      - training   # only runs with: docker compose --profile training up
+
+  compare:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: netobot-compare
+    volumes:
+      - model-store:/app/models
+    command: ["--compare", "--no-viz"]
+    networks:
+      - netobot-net
+    profiles:
+      - compare
+
+networks:
+  netobot-net:
+    driver: bridge
+
+volumes:
+  model-store:
+    driver: local

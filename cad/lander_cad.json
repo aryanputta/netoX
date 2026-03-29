@@ -1,0 +1,37 @@
+{
+  "_comment": "SolidWorks CAD export — rocket-style lander. Properties computed from mass properties analysis tool.",
+  "model_name": "NeotBot Lander Mk-1",
+  "units": "SI",
+  "mass_dry": 8.0,
+  "mass_fuel_init": 4.0,
+  "fuel_burn_rate": 0.000510,
+  "body_radius": 0.15,
+  "body_height": 0.60,
+  "cg_offset": [0.0, 0.0, -0.05],
+  "Ixx": 0.285,
+  "Iyy": 0.285,
+  "Izz": 0.090,
+  "Ixy": 0.0,
+  "Ixz": 0.0,
+  "Iyz": 0.0,
+  "cd_body": 0.47,
+  "reference_area": 0.0707,
+  "max_thrust": 200.0,
+  "min_throttle": 0.30,
+  "max_rcs_torque": 12.0,
+  "specific_impulse": 200.0,
+  "landing_legs": 4,
+  "leg_span": 0.45,
+  "leg_height": 0.12,
+  "dimensions": {
+    "overall_height_m": 0.72,
+    "overall_diameter_m": 0.30,
+    "leg_spread_m": 0.90
+  },
+  "cad_provenance": {
+    "tool": "SolidWorks 2024",
+    "mass_analysis": "Mass Properties Tool",
+    "export_date": "2026-03-28",
+    "export_format": "JSON (custom schema)"
+  }
+}

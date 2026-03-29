@@ -1,0 +1,40 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.egg/
+dist/
+build/
+.eggs/
+
+# Trained models
+*.npz
+
+# Logs and telemetry
+logs/
+*.log
+*.jsonl
+
+# Matplotlib cache
+*.png
+*.pdf
+*.svg
+
+# Python venv
+.venv/
+venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+.env
