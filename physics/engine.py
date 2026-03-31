@@ -32,7 +32,7 @@ class SimulationEngine(threading.Thread):
         while not shared.shutdown.is_set():
             t0 = time.perf_counter()
 
-            # Pull latest control from shared (thread-safe read)
+            # Pull latest control from shared 
             ctrl = shared.read_control()
             wind = shared.read_wind()
 
