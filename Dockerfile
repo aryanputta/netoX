@@ -18,7 +18,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Headless matplotlib backend
 ENV MPLBACKEND=Agg
 
-# Copy source
+
 COPY . .
 
 RUN chown -R netobot:netobot /app
