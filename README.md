@@ -1,6 +1,6 @@
 # netoX
 
-netoX is a high-fidelity simulation and control environment designed for testing autonomous vertical landing algorithms. By integrating a 6-DOF physics engine with real-world networking constraints, it provides a rigorous testing ground for comparing classical control theory against modern Reinforcement Learning.
+netoX is a high-fidelity simulation and control environment designed for testing autonomous vertical landing algorithms. Using real-world networking constraints, it provides a rigorous testing ground for comparing classical control theory against modern Reinforcement Learning.
 
 # NetoBot Autonomous Landing System — Architecture
 
